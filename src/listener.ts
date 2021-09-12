@@ -9,7 +9,7 @@ async function bootstrap() {
       urls: [
         'amqps://fclxwhus:oq-2YmXcoc7YqS0rUVJ7EvO9dKD3Z7tm@codfish.rmq.cloudamqp.com/fclxwhus',
       ],
-      queue: 'wallets',
+      queue: 'authentication',
       queueOptions: {
         durable: true,
       },
