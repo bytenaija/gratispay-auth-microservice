@@ -1,4 +1,7 @@
-import { UserDto, CreateUserDto } from '../../models/apiModels/user.dto';
+import {
+  CreateGoogleUserDto,
+  CreateUserDto,
+} from '../../models/apiModels/user.dto';
 import { LoginDto } from '../../models/apiModels/login.dto';
 import { Public } from './jwt-auth.guard';
 import { LocalAuthGuard } from './local-auth.guard';
@@ -32,6 +35,14 @@ export class AuthController {
   @Public()
   async register(@Body() createUserDto: CreateUserDto) {
     return this.authService.registerUser(createUserDto);
+  }
+
+  @Post('google')
+  @ApiBody({ type: CreateGoogleUserDto })
+  @ApiOkResponse({ description: 'Created User' })
+  @Public()
+  async googleLogin(@Body() createGoogleUserDto: CreateGoogleUserDto) {
+    return this.authService.googleLogin(createGoogleUserDto);
   }
 
   @Get('profile')

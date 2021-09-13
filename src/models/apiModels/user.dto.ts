@@ -32,3 +32,32 @@ export class CreateUserDto implements UserModel {
   @ApiPropertyName('image')
   image: string;
 }
+
+export class CreateGoogleUserDto {
+  @ApiPropertyName('idToken')
+  idToken: string;
+  @ApiPropertyName('firstName')
+  user: User;
+}
+
+export type User = {
+  email: string;
+  familyName: string;
+  givenName: string;
+  id: string;
+  name: string;
+  photoUrl: string;
+};
+
+export class LoggedInUser {
+  @ApiPropertyName('token')
+  access_token: string;
+  @ApiPropertyName('email')
+  email: string;
+  @ApiPropertyName('sub')
+  id: mongoose.Schema.Types.ObjectId;
+  @ApiPropertyName('firstName')
+  firstName: string;
+  @ApiPropertyName('lastName')
+  lastName: string;
+}

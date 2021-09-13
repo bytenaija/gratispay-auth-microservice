@@ -14,6 +14,12 @@ export class User {
   @Prop()
   email: string;
 
+  @Prop({
+    required: false,
+    default: 'https://шпаковскаярб.рф/images/no_photo.png',
+  })
+  image: string;
+
   @Prop()
   passwordHash: string;
 }

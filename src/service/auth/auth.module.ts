@@ -7,6 +7,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { JwtStrategy } from './jwt.strategy';
 import { DatabaseModule } from '../../database/database.module';
+import { Transport, ClientsModule } from '@nestjs/microservices';
 
 @Module({
   controllers: [AuthController],
@@ -18,6 +19,21 @@ import { DatabaseModule } from '../../database/database.module';
       signOptions: { expiresIn: '360m' },
     }),
     DatabaseModule,
+    ClientsModule.register([
+      {
+        name: 'WALLET_SERVICE',
+        transport: Transport.RMQ,
+        options: {
+          urls: [
+            'amqps://fclxwhus:oq-2YmXcoc7YqS0rUVJ7EvO9dKD3Z7tm@codfish.rmq.cloudamqp.com/fclxwhus',
+          ],
+          queue: 'wallets',
+          queueOptions: {
+            durable: true,
+          },
+        },
+      },
+    ]),
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy],
   exports: [AuthService],
