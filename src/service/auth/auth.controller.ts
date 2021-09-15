@@ -1,6 +1,7 @@
 import {
   CreateGoogleUserDto,
   CreateUserDto,
+  PinDto,
 } from '../../models/apiModels/user.dto';
 import { LoginDto } from '../../models/apiModels/login.dto';
 import { Public } from './jwt-auth.guard';
@@ -48,5 +49,17 @@ export class AuthController {
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;
+  }
+
+  @Get('pin')
+  @ApiBody({ type: PinDto })
+  getPin(@Body() pinData: PinDto) {
+    return this.authService.getPin(pinData);
+  }
+
+  @Post('pin')
+  @ApiBody({ type: PinDto })
+  setPin(@Body() pinData: PinDto) {
+    return this.authService.setPin(pinData);
   }
 }

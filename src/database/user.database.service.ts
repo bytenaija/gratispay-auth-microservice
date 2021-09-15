@@ -1,19 +1,24 @@
-import { CreateUserDto } from '../models/apiModels/user.dto';
+import { CreateUserDto, PinDto } from '../models/apiModels/user.dto';
 import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { ObjectId } from 'mongoose';
 
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from '../models/entities/user';
+import { Pin, PinDocument } from '../models/entities/pin';
 import { Model } from 'mongoose';
 
 @Injectable()
 export class UserDatabaseService {
   readonly saltRounds = 10;
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    @InjectModel(Pin.name) private pinModel: Model<PinDocument>,
+  ) {}
 
   async upsert(createUserDto: CreateUserDto): Promise<User> {
     try {
@@ -65,5 +70,28 @@ export class UserDatabaseService {
     }
 
     return false;
+  }
+
+  async setPin(pinDto: PinDto): Promise<Pin> {
+    try {
+      const pinHash = await bcrypt.hash(pinDto.pin, this.saltRounds);
+      const pinData = {
+        ...pinDto,
+        pinHash,
+      };
+      const createdPin = new this.pinModel(pinData);
+      return createdPin.save();
+    } catch (err) {
+      throw new InternalServerErrorException('Could not encrypt your password');
+    }
+  }
+
+  async getPin(userId: ObjectId): Promise<Pin> {
+    const pin = this.pinModel.findOne({ userId }).exec();
+    if (!pin) {
+      throw new BadRequestException('Pin not found');
+    }
+
+    return pin;
   }
 }

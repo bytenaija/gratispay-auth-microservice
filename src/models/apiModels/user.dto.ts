@@ -39,6 +39,12 @@ export class CreateGoogleUserDto {
   @ApiPropertyName('firstName')
   user: User;
 }
+export class PinDto {
+  @ApiPropertyName('pin')
+  pin: string;
+  @ApiPropertyName('userId')
+  userId: mongoose.Schema.Types.ObjectId;
+}
 
 export type User = {
   email: string;

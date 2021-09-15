@@ -1,4 +1,4 @@
-import { LoggedInUser } from './../../models/apiModels/user.dto';
+import { LoggedInUser, PinDto } from './../../models/apiModels/user.dto';
 import { ConfigService } from '@nestjs/config';
 import { OAuth2Client } from 'google-auth-library';
 import { v4 } from 'uuid';
@@ -6,11 +6,12 @@ import {
   CreateGoogleUserDto,
   CreateUserDto,
 } from '../../models/apiModels/user.dto';
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 
 import { JwtService } from '@nestjs/jwt';
 import { UserDatabaseService } from '../../database/user.database.service';
 import { ClientProxy } from '@nestjs/microservices';
+import { Pin } from 'src/models/entities/pin';
 
 @Injectable()
 export class AuthService {
@@ -125,6 +126,17 @@ export class AuthService {
       };
 
       return await this.registerUser(newUser);
+    }
+  }
+  async setPin(pinData: PinDto): Promise<Pin> {
+    return await this.databaseService.setPin(pinData);
+  }
+  async getPin(pinData: PinDto): Promise<boolean> {
+    const savedPin = await this.databaseService.getPin(pinData.userId);
+    if (this.databaseService.comparePassword(pinData.pin, savedPin.pinHash)) {
+      return true;
+    } else {
+      throw new UnauthorizedException('Invalid Pin');
     }
   }
 }

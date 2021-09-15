@@ -16,7 +16,6 @@ import { Transport, ClientsModule } from '@nestjs/microservices';
     PassportModule,
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '360m' },
     }),
     DatabaseModule,
     ClientsModule.register([
