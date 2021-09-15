@@ -18,6 +18,8 @@ export class UserDto implements UserModel {
   email: string;
   @ApiPropertyName('image')
   image: string;
+  @ApiPropertyName('')
+  isPinSet: boolean;
 }
 
 export class CreateUserDto implements UserModel {
@@ -31,6 +33,8 @@ export class CreateUserDto implements UserModel {
   email: string;
   @ApiPropertyName('image')
   image: string;
+  @ApiPropertyName('')
+  isPinSet: boolean;
 }
 
 export class CreateGoogleUserDto {

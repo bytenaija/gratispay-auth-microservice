@@ -22,6 +22,12 @@ export class User {
 
   @Prop()
   passwordHash: string;
+
+  @Prop({
+    required: true,
+    default: false,
+  })
+  isPinSet: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

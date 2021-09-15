@@ -123,6 +123,7 @@ export class AuthService {
         lastName: googlePayload.family_name,
         image: googlePayload.picture,
         password: v4(),
+        isPinSet: false,
       };
 
       return await this.registerUser(newUser);

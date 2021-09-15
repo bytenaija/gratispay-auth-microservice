@@ -13,6 +13,7 @@ import {
   UseGuards,
   Get,
   Body,
+  Patch,
 } from '@nestjs/common';
 import { ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger/';
 import { AuthService } from './auth.service';
@@ -53,11 +54,11 @@ export class AuthController {
 
   @Get('pin')
   @ApiBody({ type: PinDto })
-  getPin(@Body() pinData: PinDto) {
+  checkPin(@Body() pinData: PinDto) {
     return this.authService.getPin(pinData);
   }
 
-  @Post('pin')
+  @Patch('pin')
   @ApiBody({ type: PinDto })
   setPin(@Body() pinData: PinDto) {
     return this.authService.setPin(pinData);

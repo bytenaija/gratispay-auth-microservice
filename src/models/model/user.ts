@@ -4,4 +4,5 @@ export interface UserModel {
   password: string;
   email: string;
   image: string;
+  isPinSet: boolean;
 }
