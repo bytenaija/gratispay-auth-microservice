@@ -54,7 +54,7 @@ export class AuthController {
 
   @Post('pin')
   @ApiBody({ type: PinDto })
-  checkPin(@Request() req, @Body() pinData: PinDto) {
+  verifyPin(@Request() req, @Body() pinData: PinDto) {
     pinData.userId = req.user.id;
     return this.authService.getPin(pinData);
   }
@@ -64,5 +64,10 @@ export class AuthController {
   setPin(@Request() req, @Body() pinData: PinDto) {
     pinData.userId = req.user.id;
     return this.authService.setPin(pinData);
+  }
+
+  @Get('pin')
+  checkPinSet(@Request() req) {
+    return this.authService.checkPinSet(req.user.id);
   }
 }

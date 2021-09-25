@@ -12,6 +12,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UserDatabaseService } from '../../database/user.database.service';
 import { ClientProxy } from '@nestjs/microservices';
 import { Pin } from 'src/models/entities/pin';
+import { ObjectId } from 'mongoose';
 
 @Injectable()
 export class AuthService {
@@ -37,6 +38,7 @@ export class AuthService {
           firstName: user.firstName,
           lastName: user.lastName,
           email: user.email,
+          image: user.image,
         };
         return result;
       } else {
@@ -134,10 +136,19 @@ export class AuthService {
   }
   async getPin(pinData: PinDto): Promise<boolean> {
     const savedPin = await this.databaseService.getPin(pinData.userId);
+    console.log(pinData);
     if (this.databaseService.comparePassword(pinData.pin, savedPin.pinHash)) {
       return true;
     } else {
       throw new UnauthorizedException('Invalid Pin');
+    }
+  }
+  async checkPinSet(userId: ObjectId) {
+    const savedPin = await this.databaseService.getPin(userId);
+    if (savedPin) {
+      return { pinSet: true };
+    } else {
+      return { pinSet: false };
     }
   }
 }
