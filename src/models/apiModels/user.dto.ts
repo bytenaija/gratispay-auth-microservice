@@ -70,4 +70,6 @@ export class LoggedInUser {
   firstName: string;
   @ApiPropertyName('lastName')
   lastName: string;
+  @ApiPropertyName('image')
+  image: string;
 }

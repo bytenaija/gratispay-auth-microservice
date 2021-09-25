@@ -55,6 +55,7 @@ export class AuthService {
       sub: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
+      image: user.image,
     };
     return {
       access_token: this.jwtService.sign(payload),
@@ -62,6 +63,7 @@ export class AuthService {
       id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
+      image: user.image,
     };
   }
 
@@ -72,6 +74,7 @@ export class AuthService {
       sub: user._id,
       firstName: user.firstName,
       lastName: user.lastName,
+      image: user.image,
     };
     await this.walletClient.emit<any>('create_wallet', { userId: user._id });
     return {
@@ -80,6 +83,7 @@ export class AuthService {
       id: user._id,
       firstName: user.firstName,
       lastName: user.lastName,
+      image: user.image,
     };
   }
 
@@ -110,6 +114,7 @@ export class AuthService {
         sub: user._id,
         firstName: user.firstName,
         lastName: user.lastName,
+        image: user.image,
       };
       return {
         access_token: this.jwtService.sign(payload),
@@ -117,6 +122,7 @@ export class AuthService {
         id: user._id,
         firstName: user.firstName,
         lastName: user.lastName,
+        image: user.image,
       };
     } else {
       const newUser: CreateUserDto = {
