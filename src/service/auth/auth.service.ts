@@ -157,4 +157,13 @@ export class AuthService {
       return { pinSet: false };
     }
   }
+
+  async addToken(userId: string, token: string) {
+    return await this.databaseService.addToken(userId, token);
+  }
+
+  async getUserTokens(userId: string) {
+    const user = await this.databaseService.findById(userId);
+    return user?.tokens;
+  }
 }

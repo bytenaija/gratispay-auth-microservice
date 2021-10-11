@@ -1,3 +1,4 @@
+import { TokenDto } from './../../models/apiModels/user.dto';
 import {
   CreateGoogleUserDto,
   CreateUserDto,
@@ -15,7 +16,12 @@ import {
   Body,
   Patch,
 } from '@nestjs/common';
-import { ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger/';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOkResponse,
+  ApiTags,
+} from '@nestjs/swagger/';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -48,12 +54,14 @@ export class AuthController {
   }
 
   @Get('profile')
+  @ApiBearerAuth('Bearer')
   getProfile(@Request() req) {
     return req.user;
   }
 
   @Post('pin')
   @ApiBody({ type: PinDto })
+  @ApiBearerAuth('Bearer')
   verifyPin(@Request() req, @Body() pinData: PinDto) {
     pinData.userId = req.user.id;
     return this.authService.getPin(pinData);
@@ -67,7 +75,20 @@ export class AuthController {
   }
 
   @Get('pin')
+  @ApiBearerAuth('Bearer')
   checkPinSet(@Request() req) {
     return this.authService.checkPinSet(req.user.id);
+  }
+
+  @Patch('token')
+  @ApiBearerAuth('Bearer')
+  addNotificationToken(@Request() req, @Body() data: TokenDto) {
+    return this.authService.addToken(req.user.id, data.token);
+  }
+
+  @Get('tokens')
+  @ApiBearerAuth('Bearer')
+  getUserTokens(@Request() req) {
+    return this.authService.getUserTokens(req.user.id);
   }
 }

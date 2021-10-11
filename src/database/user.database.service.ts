@@ -94,4 +94,16 @@ export class UserDatabaseService {
 
     return pin;
   }
+
+  async addToken(userId: string, token: string) {
+    const user = await this.findById(userId);
+    if (user) {
+      const tokens = user.tokens || [];
+      if (!tokens.includes(token)) {
+        tokens.push(token);
+      }
+
+      return this.userModel.findByIdAndUpdate(userId, { tokens });
+    }
+  }
 }

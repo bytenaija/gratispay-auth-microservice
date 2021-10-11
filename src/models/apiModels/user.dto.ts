@@ -20,6 +20,8 @@ export class UserDto implements UserModel {
   image: string;
   @ApiPropertyName('')
   isPinSet: boolean;
+  @ApiPropertyName('tokens')
+  tokens: string[];
 }
 
 export class CreateUserDto implements UserModel {
@@ -33,7 +35,7 @@ export class CreateUserDto implements UserModel {
   email: string;
   @ApiPropertyName('image')
   image: string;
-  @ApiPropertyName('')
+  @ApiPropertyName('isPinSet')
   isPinSet: boolean;
 }
 
@@ -48,6 +50,11 @@ export class PinDto {
   pin: string;
   @ApiPropertyName('userId')
   userId: mongoose.Schema.Types.ObjectId;
+}
+
+export class TokenDto {
+  @ApiPropertyName('token')
+  token: string;
 }
 
 export type User = {

@@ -28,6 +28,9 @@ export class User {
     default: false,
   })
   isPinSet: boolean;
+
+  @Prop()
+  tokens: string[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
