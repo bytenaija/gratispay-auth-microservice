@@ -1,4 +1,4 @@
-import { TokenDto } from './../../models/apiModels/user.dto';
+import { TokenDto, GetTokenDto } from './../../models/apiModels/user.dto';
 import {
   CreateGoogleUserDto,
   CreateUserDto,
@@ -15,11 +15,13 @@ import {
   Get,
   Body,
   Patch,
+  Param,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiBody,
   ApiOkResponse,
+  ApiParam,
   ApiTags,
 } from '@nestjs/swagger/';
 import { AuthService } from './auth.service';
@@ -86,9 +88,10 @@ export class AuthController {
     return this.authService.addToken(req.user.id, data.token);
   }
 
-  @Get('tokens')
-  @ApiBearerAuth('Bearer')
-  getUserTokens(@Request() req) {
-    return this.authService.getUserTokens(req.user.id);
+  @Get(':userId/tokens')
+  @Public()
+  @ApiParam({ name: 'userId', type: 'string' })
+  getUserTokens(@Param() param: GetTokenDto) {
+    return this.authService.getUserTokens(param.userId);
   }
 }

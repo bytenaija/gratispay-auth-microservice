@@ -80,3 +80,8 @@ export class LoggedInUser {
   @ApiPropertyName('image')
   image: string;
 }
+
+export class GetTokenDto {
+  @ApiPropertyName('userId')
+  userId: string;
+}
